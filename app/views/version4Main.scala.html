@@ -1,0 +1,265 @@
+@()(implicit request: RequestHeader, flash: Flash)
+
+@main("Simple chat") {
+    <div id="contents"></div>
+
+@*    ------------------------------------*@
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <title>Login Activity Control API</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <!--===============================================================================================-->
+            <link rel="icon" type="@routes.Assets.versioned("login_v1/image/png")" href="@routes.Assets.versioned("login_v1/images/icons/favicon.ico")"/>
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/vendor/bootstrap/css/bootstrap.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/fonts/font-awesome-4.7.0/css/font-awesome.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/fonts/Linearicons-Free-v1.0.0/icon-font.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/vendor/animate/animate.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/vendor/css-hamburgers/hamburgers.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/vendor/select2/select2.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/css/util.css")">
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/css/main.css")">
+                <!--===============================================================================================-->
+        </head>
+        <body>
+            <input type="hidden" id="csrfToken" value="@helper.CSRF.getToken.value">
+            <input type="hidden" id="validateRoute" value="@routes.TaskList5.validate()">
+            <input type="hidden" id="tasksRoute" value="@routes.TaskList5.taskList()">
+            <input type="hidden" id="createRoute" value="@routes.TaskList5.createUser()">
+            <input type="hidden" id="deleteRoute" value="@routes.TaskList5.delete()">
+            <input type="hidden" id="addRoute" value="@routes.TaskList5.addTask()">
+            <input type="hidden" id="restoreRoute" value="@routes.TaskList5.restorePassword()">
+            <input type="hidden" id="newPassRoute" value="@routes.TaskList5.newPass()">
+
+
+            <div id="newpass-section" hidden>
+                <div class="limiter">
+                    <div class="container-login100" style="background-image: url('images/img-01.jpg');">
+                        <div class="wrap-login100 p-t-20 p-b-20">
+                            @*                        <form class="login100-form validate-form">*@
+                            <div class="login100-form-avatar">
+                                <img src="@routes.Assets.versioned("login_v1/images/icons/fire.png")" alt="AVATAR">
+                            </div>
+
+                            <span class="login100-form-title p-t-20 p-b-20">
+                                Password recovery
+                            </span>
+
+                            <div class="wrap-input100 validate-input m-b-10" data-validate = "Password is required">
+                                <input id="newpass" class="input100" type="password" placeholder="New password">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                            </div>
+
+                            <div id="restore-button" class="container-login100-form-btn p-t-10">
+                                <button onclick="newPass()" class="login100-form-btn">
+                                    Submit new password
+                                </button>
+                            </div>
+
+                            <div class="text-center w-full p-t-25 p-b-20">
+                                <a href="#" class="txt1">
+                                </a>
+                            </div>
+                            <br>
+                            <div class="text-center w-full">
+                                <a href="#" class="txt1" onclick="visibleLogin()">
+                                    Go to login page
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="restore-section" hidden>
+                <div class="limiter">
+                    <div class="container-login100" style="background-image: url('images/img-01.jpg');">
+                        <div class="wrap-login100 p-t-20 p-b-20">
+                            @*                        <form class="login100-form validate-form">*@
+                            <div class="login100-form-avatar">
+                                <img src="@routes.Assets.versioned("login_v1/images/icons/fire.png")" alt="AVATAR">
+                            </div>
+
+                            <span class="login100-form-title p-t-20 p-b-20">
+                                Password recovery
+                            </span>
+
+                            <span id="email-alert-recovery" hidden>Email is required</span>
+                            <div class="wrap-input100 validate-input m-b-10" data-validate = "Email is required">
+                                <input id="email-recovery" class="input100" type="email" placeholder="Email">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-envelope-o"></i>
+                                </span>
+                            </div>
+
+                            <div id="restore-button" class="container-login100-form-btn p-t-10">
+                                <button onclick="restorePassword()" class="login100-form-btn">
+                                    Restore password
+                                </button>
+                            </div>
+
+                            <div class="text-center w-full p-t-25 p-b-20">
+                                <a href="#" class="txt1">
+                                </a>
+                            </div>
+                            <br>
+                            <div class="text-center w-full">
+                                <a href="#" class="txt1" onclick="visibleLogin()">
+                                    Go to login page
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="register-section" hidden>
+                <div class="limiter">
+                    <div class="container-login100" style="background-image: url('images/img-01.jpg');">
+                        <div class="wrap-login100 p-t-20 p-b-20">
+                            @*                        <form class="login100-form validate-form">*@
+                            <div class="login100-form-avatar">
+                                <img src="@routes.Assets.versioned("login_v1/images/icons/fire.png")" alt="AVATAR">
+                            </div>
+
+                            <span class="login100-form-title p-t-20 p-b-20">
+                                Register on Simple Chat
+                            </span>
+
+                            <span id="email-alert" hidden>Email is required</span>
+                            <div class="wrap-input100 validate-input m-b-10" data-validate = "Email is required">
+                                <input id="email" class="input100" type="email" placeholder="Email">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-envelope-o"></i>
+                                </span>
+                            </div>
+
+                            <div class="wrap-input100 validate-input m-b-10" data-validate = "Username is required">
+                                <input id="createName" class="input100" type="text" placeholder="Username">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+
+                            <div class="wrap-input100 validate-input m-b-10" data-validate = "Password is required">
+                                <input id="createPass" class="input100" type="password" placeholder="Password">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                            </div>
+
+                            <div id="register-button" class="container-login100-form-btn p-t-10">
+                                <button onclick="createUser()" class="login100-form-btn">
+                                    Register
+                                </button>
+                            </div>
+
+                            <div class="text-center w-full p-t-25 p-b-20">
+                                <a href="#" class="txt1">
+                                </a>
+                            </div>
+                            <br>
+                            <div class="text-center w-full">
+                                <a href="#" class="txt1" onclick="visibleLogin()">
+                                    Go to login page
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="login-section">
+            <div class="limiter">
+                <div class="container-login100" style="background-image: url('images/img-01.jpg');">
+                    <div class="wrap-login100 p-t-20 p-b-20">
+@*                        <form class="login100-form validate-form">*@
+                            <div class="login100-form-avatar">
+                                <img src="@routes.Assets.versioned("login_v1/images/icons/fire.png")" alt="AVATAR">
+                            </div>
+
+                            <span class="login100-form-title p-t-20 p-b-20">
+                                Welcome to Simple Chat
+                            </span>
+
+                            <div class="wrap-input100 validate-input m-b-10" data-validate = "Username is required">
+                                <input id="loginName" class="input100" type="text" placeholder="Username">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+
+                            <div class="wrap-input100 validate-input m-b-10" data-validate = "Password is required">
+                                <input id="loginPass" class="input100" type="password" placeholder="Password">
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                            </div>
+
+                            <div class="container-login100-form-btn p-t-10">
+                                <button onclick="login()" class="login100-form-btn">
+                                   Login
+                                </button>
+                            </div>
+
+                            <div class="text-center w-full p-t-25 p-b-20">
+                                <a href="#" class="txt1" onclick="visibleRestorePass()">
+                                    Forgot Username / Password?
+                                </a>
+                            </div>
+                            <div class="text-center w-full">
+                                <a href="#" class="txt1" onclick="visibleCreateUser()">
+                                    Create new account
+                                </a>
+                            </div>
+@*                        </form>*@
+                    </div>
+                </div>
+            </div>
+            </div>
+
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("login_v1/vendor/jquery/jquery-3.2.1.min.js")"></script>
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("login_v1/vendor/bootstrap/js/popper.js")"></script>
+            <script src="@routes.Assets.versioned("login_v1/vendor/bootstrap/js/bootstrap.min.js")"></script>
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("login_v1/vendor/select2/select2.min.js")"></script>
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("login_v1/js/main.js")"></script>
+
+            <script src="@routes.Assets.versioned("javascripts/version3.js")"></script>
+
+
+
+
+
+        </body>
+    </html>
+@*    ------------------------------------*@
+
+    </div>
+
+
+
+
+
+}

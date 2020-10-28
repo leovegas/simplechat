@@ -1,0 +1,64 @@
+@()(implicit request: RequestHeader, flash: Flash)
+
+@main("Task List (Version 4)") {
+    <div id="contents"></div>
+
+@*    ------------------------------------*@
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <title>Login Activity Control API</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <!--===============================================================================================-->
+            <link rel="icon" type="@routes.Assets.versioned("version1/login_v1/image/png")" href="@routes.Assets.versioned("version1/login_v1/images/icons/favicon.ico")"/>
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("version1/login_v1/vendor/bootstrap/css/bootstrap.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("version1/login_v1/fonts/font-awesome-4.7.0/css/font-awesome.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("version1/login_v1/fonts/Linearicons-Free-v1.0.0/icon-font.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("version1/login_v1/vendor/animate/animate.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("version1/login_v1/vendor/css-hamburgers/hamburgers.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("version1/login_v1/vendor/select2/select2.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("version1/login_v1/css/util.css")">
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("version1/login_v1/css/main.css")">
+                <!--===============================================================================================-->
+        </head>
+        <body>
+
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("version1/login_v1/vendor/jquery/jquery-3.2.1.min.js")"></script>
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("version1/login_v1/vendor/bootstrap/js/popper.js")"></script>
+            <script src="@routes.Assets.versioned("version1/login_v1/vendor/bootstrap/js/bootstrap.min.js")"></script>
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("version1/login_v1/vendor/select2/select2.min.js")"></script>
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("version1/login_v1/js/main.js")"></script>
+
+            <script src="https://unpkg.com/react@@16/umd/react.development.js"></script>
+            <script src="https://unpkg.com/react-dom@@16/umd/react-dom.development.js"></script>
+
+        </body>
+    </html>
+@*    ------------------------------------*@
+
+    <input type="hidden" id="csrfToken" value="@helper.CSRF.getToken.value">
+    <input type="hidden" id="validateRoute" value="@routes.TaskList5.validate()">
+    <input type="hidden" id="tasksRoute" value="@routes.TaskList5.taskList()">
+    <input type="hidden" id="createRoute" value="@routes.TaskList5.createUser()">
+    <input type="hidden" id="deleteRoute" value="@routes.TaskList5.delete()">
+    <input type="hidden" id="addRoute" value="@routes.TaskList5.addTask()">
+    <input type="hidden" id="logoutRoute" value="@routes.TaskList5.logout()">
+
+    <div id="react-root"></div>
+    <script src="@routes.Assets.versioned("javascripts/version5.js")"></script>
+
+
+
+}

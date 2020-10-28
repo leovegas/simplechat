@@ -1,0 +1,82 @@
+@font-face {
+    font-family: Montserrat-Regular;
+    src: url('../fonts/montserrat/Montserrat-Regular.ttf');
+}
+.menu {
+    font-family: Montserrat-Regular;
+    z-index: 1000000;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 10px;
+    width: 100%;
+    background: transparent;
+    position: relative;
+    text-align: center;
+    font-size: 15px;
+    color: #282828;
+}
+
+.menu ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    list-style-image: none;
+}
+
+.menu li {
+    font-family: Montserrat-Regular;
+    display: block;
+    font-size: 11px;
+    color: #282828;
+    border-radius: 25px;
+    padding: 0 0 0 0;
+}
+
+.menu li:hover {
+    display: block;
+    border-radius: 25px;
+    background: #4bb69c;
+    padding: 0 0 0 0;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    border-radius: 25px;
+    margin: 0px;
+    color: #666;
+}
+
+.menu ul li a:hover {
+    color: #666;
+    text-decoration: none;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #666;
+}
+
+.menu a:hover {
+    text-decoration: none;
+    color: #666;
+}
+
+.glyphicon-home {
+    color: white;
+    font-size: 1.5em;
+    margin-top: 5px;
+    margin: 0 auto;
+}
+
+header {
+    display: inline-block;
+    font-size: 12px;
+}
+
+span {
+    padding-left: 20px;
+}
+
+a {
+    color: #336699;
+}

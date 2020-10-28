@@ -1,0 +1,145 @@
+@()(implicit requestHeader: RequestHeader, flash: Flash)
+
+@main("WebSocket Chat") {
+
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <title>Login Activity Control API</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <!--===============================================================================================-->
+            <link rel="icon" type="@routes.Assets.versioned("login_v1/image/png")" href="@routes.Assets.versioned("login_v1/images/icons/favicon.ico")"/>
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/vendor/bootstrap/css/bootstrap.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/fonts/font-awesome-4.7.0/css/font-awesome.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/fonts/Linearicons-Free-v1.0.0/icon-font.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/vendor/animate/animate.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/vendor/css-hamburgers/hamburgers.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/vendor/select2/select2.min.css")">
+                <!--===============================================================================================-->
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/css/util.css")">
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/css/main.css")">
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("login_v1/css/popup.css")">
+            <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("../assets/stylesheets/buttons.sass")">
+
+
+            <!--===============================================================================================-->
+                <!--===============================================================================================-->
+
+        </head>
+        <body>
+            <input type="hidden" id="csrfToken" value="@helper.CSRF.getToken.value">
+            <input type="hidden" id="validateRoute" value="@routes.TaskList3.validate()">
+            <input type="hidden" id="tasksRoute" value="@routes.TaskList3.taskList()">
+            <input type="hidden" id="createRoute" value="@routes.TaskList3.createUser()">
+            <input type="hidden" id="deleteRoute" value="@routes.TaskList3.delete()">
+            <input type="hidden" id="addRoute" value="@routes.TaskList3.addTask()">
+            <input type="hidden" id="ws-route" value="@routes.WebSocketChat.socket.absoluteURL()">
+            <input type="hidden" id="chat-route" value="@routes.WebSocketChat.index()">
+            <input type="hidden" id="list-route" value="@routes.WebSocketChat.activeUsersList()">
+
+            <div class="limiter">
+                    <div class="container-login100" style="background-image: url('images/img-01.jpg');">
+                        <div class="wrap-login100-chat p-t-10 p-b-10">
+                            <div class="d-flex justify-content-between">
+                                <div class="login100-form-avatar">
+                                    <img src="@routes.Assets.versioned("login_v1/images/icons/fire2.png")" alt="AVATAR">
+                                </div>
+                                <div class="login100-form-title-chat">
+                                    <span class="login100-form-title-chat">
+                                        <br>
+                                        Simple Chat
+                                    </span>
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="main-frame">
+                                <div class="wrap-input100 validate-input m-b-10">
+                                    <input id="chat-info" class="input102" type="text">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <a id="active-users" class="input103"></a>
+                                        <a id="users-info" class="input103"></a>
+                                    </span>
+                                </div>
+
+                                <div class="menu p-b-10 ">
+                                    <ul id="userlist">
+                                        <br>
+                                    </ul>
+                                </div>
+
+
+                                <div class="wrap-input100 validate-input m-b-10 p-t-5">
+                                    <textarea id="chat-area" class="input101" rows="20" cols="200"></textarea>
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                    </span>
+                                </div>
+
+                                <div class="wrap-input100 validate-input m-b-10 p-t-5">
+                                    <input id="chat-input" class="input105" size="150" type="text" placeholder="Text">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                    </span>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="container-login100-form-btn p-t-5">
+                                        <button id="sendButton" class="login100-form-btn">
+                                            Send
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="text-center w-full p-t-25 p-b-20">
+                                    <div class="text-center w-full">
+                                        <a href="@routes.WebSocketChat.logoutMessage()">Logout</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("login_v1/vendor/jquery/jquery-3.2.1.min.js")"></script>
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("login_v1/vendor/bootstrap/js/popper.js")"></script>
+            <script src="@routes.Assets.versioned("login_v1/vendor/bootstrap/js/bootstrap.min.js")"></script>
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("login_v1/vendor/select2/select2.min.js")"></script>
+                <!--===============================================================================================-->
+            <script src="@routes.Assets.versioned("login_v1/js/main.js")"></script>
+
+            <script src="@routes.Assets.versioned("javascripts/version3.js")"></script>
+
+            <script src="@routes.Assets.versioned("javascripts/chat.js")"></script>
+
+            <script src="@routes.Assets.versioned("javascripts/popup.js")"></script>
+
+            <script src="@routes.Assets.versioned("javascripts/buttons.js")"></script>
+
+
+
+        </body>
+    </html>
+
+
+
+}
+
+
+
